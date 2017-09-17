@@ -1,11 +1,13 @@
 # -*- coding=utf-8 -*-
 
+from datetime import datetime, timedelta
 import sys
 import serial
 from subprocess import call
 import logging
 
 logger = logging.getLogger(__name__)
+LAST_COMMAND_TIME = datetime.now() - timedelta(days=1)
 
 
 class EventHook(object):
@@ -68,6 +70,7 @@ if __name__ == "__main__":
     CMD_CLICK = 4
     CMD_HOLD = 5
     CMD_REALEASE = 10
+    CMD_DBL_CLICK = 101
     
     logger.setLevel(logging.DEBUG)
     log = logging.StreamHandler(sys.stdout)
@@ -77,9 +80,19 @@ if __name__ == "__main__":
     port = SerialPort()
     
     def command_handler(command):
+        global LAST_COMMAND_TIME
         cmd_num = command[4]
         cmd_mode = command[5]
+        if (datetime.now() - LAST_COMMAND_TIME).total_seconds() < 1:
+            cmd_mode = CMD_DBL_CLICK
+            logger.info('DOWBLE-CLICK!')
+            
+        LAST_COMMAND_TIME = datetime.now()
         logger.info('Command received: %s', cmd_num)
+        
+        if cmd_mode == CMD_DBL_CLICK:
+            if cmd_num == 1:
+                call(["mpc", "next"])
         
         if cmd_mode == CMD_CLICK:
             if cmd_num == 1:
