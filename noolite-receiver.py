@@ -106,7 +106,10 @@ if __name__ == "__main__":
             if cmd_num == 2:
                 call(["mpc", "volume", "-5"])
     
-    port.onMessage += command_handler
+    def command_handler_plain(command):
+        call(["mpc", "toggle"])
+    
+    port.onMessage += command_handler_plain
 
     try:
         port.consume()

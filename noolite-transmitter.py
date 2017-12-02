@@ -32,7 +32,7 @@ class SerialPort(object):
         
         buffer = bytearray(command)
         self.serial.write(buffer)
-        logger.debug('Serial data written: %s', repr(buffer))
+        logger.debug('Serial data written: %s', command)
         
     def close(self):
         self.serial.close()
@@ -50,17 +50,26 @@ class RequestHandler(BaseHTTPRequestHandler):
         params = self.parseQuery(self.path)
         if 'ch' in params and 'cmd' in params:
             port = SerialPort()
-            command = [171,0,0,0,int(params['ch']),int(params['cmd']),0,0,0,0,0,0,0,0,0,0,172]
+            cmd = int(params.get('cmd', 0))
+            ch = int(params.get('ch', 0))
+            mode = int(params.get('mode', 0))
+            ctr = int(params.get('ctr', 0))
+            command = [171,mode,ctr,0,ch,cmd,0,0,0,0,0,0,0,0,0,0,172]
             port.publish(command)
             port.close()
         
         help_text = """
-            USAGE: http://192.168.100.200:8080/?ch=3&cmd=3
+            USAGE: 
+            
+            switch on light (channel 3): http://192.168.100.200:8080/?ch=3&cmd=3
+            start binding on channel 5: http://192.168.100.200:8080/?ch=5&mode=1&ctr=3
+            erase binding on channel 2: http://192.168.100.200:8080/?ch=2&mode=1&ctr=5
             
             BINDED CHANNELS:
             1 - mpc play
             2 - mpc pause
             3 - light
+            5 - kitchen-sensor-scenary
             
             BINDED COMMANDS:
             2 - on
