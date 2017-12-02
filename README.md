@@ -6,4 +6,5 @@ http://www.noo.com.by/assets/files/PDF/MTRF-64.pdf
 
 Usage:
 
-    $ python ./noolite.py
+    $ sudo pip install pyserial
+    $ sudo python ./noolite/noolite-transmitter.py
