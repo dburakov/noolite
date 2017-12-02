@@ -1,0 +1,11 @@
+[Unit]
+Description=ympd
+After=multi-user.target
+ 
+[Service]
+Type=simple
+ExecStart=/home/pi/noolite/ympd -w 9090
+Restart=on-abort
+ 
+[Install]
+WantedBy=multi-user.target

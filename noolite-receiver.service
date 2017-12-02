@@ -1,0 +1,11 @@
+[Unit]
+Description=noolite-receiver
+After=multi-user.target
+ 
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/noolite/noolite-receiver.py
+Restart=on-abort
+ 
+[Install]
+WantedBy=multi-user.target

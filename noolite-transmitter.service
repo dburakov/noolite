@@ -1,0 +1,11 @@
+[Unit]
+Description=noolite-transmitter
+After=multi-user.target
+ 
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/noolite/noolite-transmitter.py
+Restart=on-abort
+ 
+[Install]
+WantedBy=multi-user.target

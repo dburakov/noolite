@@ -67,7 +67,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             
             BINDED CHANNELS:
             1 - mpc play
-            2 - mpc pause
             3 - light
             5 - kitchen-sensor-scenary
             
