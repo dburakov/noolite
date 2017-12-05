@@ -48,15 +48,14 @@ class RequestHandler(BaseHTTPRequestHandler):
     
     def do_GET(self):
         params = self.parseQuery(self.path)
-        if 'ch' in params and 'cmd' in params:
-            port = SerialPort()
-            cmd = int(params.get('cmd', 0))
-            ch = int(params.get('ch', 0))
-            mode = int(params.get('mode', 0))
-            ctr = int(params.get('ctr', 0))
-            command = [171,mode,ctr,0,ch,cmd,0,0,0,0,0,0,0,0,0,0,172]
-            port.publish(command)
-            port.close()
+        port = SerialPort()
+        cmd = int(params.get('cmd', 0))
+        ch = int(params.get('ch', 0))
+        mode = int(params.get('mode', 0))
+        ctr = int(params.get('ctr', 0))
+        command = [171,mode,ctr,0,ch,cmd,0,0,0,0,0,0,0,0,0,0,172]
+        port.publish(command)
+        port.close()
         
         help_text = """
             USAGE: 
@@ -69,6 +68,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             1 - mpc play
             3 - light
             5 - kitchen-sensor-scenary
+            6 - hall-toilet-left-bottom
             
             BINDED COMMANDS:
             2 - on
