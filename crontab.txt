@@ -1,0 +1,6 @@
+# grep CRON /var/log/syslog
+# m h  dom mon dow   command
+30 7 * * * curl -X GET --head "http://localhost:8080/?ch=3&cmd=2"
+0 9 * * * curl -X GET --head "http://localhost:8080/?ch=3&cmd=0"
+0 21 * * * curl -X GET --head "http://localhost:8080/?ch=3&cmd=2"
+0 23 * * * curl -X GET --head "http://localhost:8080/?ch=3&cmd=0"
